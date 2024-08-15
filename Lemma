@@ -1,0 +1,101 @@
+package speechtotext;
+import java.util.*;
+
+/**
+ *
+ *The Lemma Class Has One Method and returns type string */
+public class Lemma {
+
+ private String word;
+ private String[] vowels = { "a","e","i","o","u", "ê" ,"ô"};
+ private String[] consonants={"b","m","n","ny","ng","p","t","d","k","ph","th","kh","kg","ts","tl","tš","j","tsh","tšh",
+                              "f","š","s","g","h","r","w","l","y"};
+ private String[] notAllowed={"b","ng","d","ph","kh","j",
+                              "f","h","r","dw"};
+ private String[] allowed={"ba","be","bê","bi","bo","bô","bu","di","du","fa","fe","fê","fi","fo","fô",
+   "fu","ha","he","hu","hi","ja","je","jo","jw","ga","ge","gi","go","gw",
+ "ka","kga","kge","kgo","kgwa","kgwe","kgwi","kha","khi","kho","khu","khwa",
+ "khwi","ki","ko","ke","ku","kwa","kwe","kwi","la","le","li","lo","lwa","lwe",
+ "ma","me","mi","mma","mme","mmi","mmo","mmu","mo","mpa","mpe","mpha","mphe","mphi","mpho","mpi","mpu","mpo","mu",
+ "na","ne","nga","ngo","ngwa","ngwe","ni","nka","nke","nkga","nkgi","nkgo","nkgwa","nko","nku","nkwa","nkwe","nna",
+ "nne","nnga","nngwe","nni","nnwa","nnya","nnye","nnyi","nta","nte","no","nnyo","ntha","nthe","ntho","nthu","nti","ntla","ntle",
+ "ntllha","ntlhe","ntlho","ntlhwa","ntlo","ntlwa","nto","ntsa","ntshe","mtshi","ntsho","ntshu","ntshwa","ntshwe","ntsi","ntso"
+ ,"ntswa","ntwa","ntwe","nwa","nya","nye","pa","pe","pha","phe","phi","pho","phu","pi","po","pu","ra","re","ri","ro","ru","rwa","rwe"
+ ,"sa","se","sha","sho","si","so","swa","swe","ta","te","ti","to","tu","tla","tle","tli","tlo","tlu","tha","the","tho","thu","tsa","tse"
+ ,"tsi","tsu","tso","tlha","tlhe","tlho","tlhwa","tsha","tshe","tshi","tsho","tshu","tshwa","tshwe","tshwi","we","wa","ya","ye"};
+ /**
+  * Default constructor
+   * */
+ public Lemma() {
+     
+
+ }
+
+ /**
+  *Lemmatize method
+  *@param String
+  *@return String
+  *Method upon receiving a tirwa checks for suffixes
+  *and executes if statements to display the word basic form*/
+public static boolean useList(String[] arr, String targetValue) {
+    return Arrays.asList(arr).contains(targetValue);
+}
+public String checkWord(String word)
+{
+
+if(word.contains("c")||word.contains("q")||word.contains("v")||word.contains("x")||word.contains("z") )
+{
+return "True";
+}else
+{
+return "false";
+}
+  
+
+}
+ 
+ 
+ 
+ public String Lemmatize(String lemma) {
+   //try and catch used in code to prevent crashing @ Nullpointer or Outofbounds
+   //i.e when a short word is entered these will be caught by the try and catch
+   try{
+     
+  String lemmatised;  //to be used at return
+  lemma=lemma.toLowerCase();
+  if(checkWord(lemma).equals("True"))
+  {return "Not A Setswana Word";
+  }
+    String str="";
+    if(useList(vowels,Character.toString(lemma.charAt(0)))==true)
+    {
+    str=str+lemma.charAt(0)+"-";
+    lemma.substring(1, lemma.length()-1);
+    System.out.println(lemma);
+    }
+    for (int i = 0, n = lemma.length(); i < n; i++) {
+        char c = lemma.charAt(i);
+        
+        String st=Character.toString(c ) ;
+        
+        if(useList(consonants,st)==true)
+        {
+            if(useList(vowels,Character.toString(lemma.charAt(i+1)))==true)
+            {
+                str=str+c+lemma.charAt(i+1)+"-";
+                i=i+1;
+            }
+            else 
+            {            
+
+str=str+st;
+                
+            }
+        }
+    }
+    return str;
+ }
+   catch(Exception e){System.out.println();
+   return " ";}
+ }
+}
